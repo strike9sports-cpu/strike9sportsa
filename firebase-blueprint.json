@@ -1,0 +1,182 @@
+{
+  "entities": {
+    "Expense": {
+      "title": "Expense",
+      "description": "Company expense paid by a shareholder or company account with invoice receipt attachments",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "amount": { "type": "number" },
+        "categoryId": { "type": "string" },
+        "categoryName": { "type": "string" },
+        "paidByUserId": { "type": "string" },
+        "paidByName": { "type": "string" },
+        "expenseDate": { "type": "string" },
+        "vendor": { "type": "string" },
+        "invoiceNumber": { "type": "string" },
+        "description": { "type": "string" },
+        "paymentMethod": { "type": "string" },
+        "notes": { "type": "string" },
+        "attachments": { "type": "array" },
+        "createdBy": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["amount", "categoryId", "paidByUserId", "expenseDate"]
+    },
+    "Revenue": {
+      "title": "Revenue",
+      "description": "Customer revenue received by the company",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "amount": { "type": "number" },
+        "revenueDate": { "type": "string" },
+        "customer": { "type": "string" },
+        "invoiceNumber": { "type": "string" },
+        "paymentStatus": { "type": "string" },
+        "paymentMethod": { "type": "string" },
+        "description": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdBy": { "type": "string" },
+        "createdByName": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["amount", "revenueDate", "customer"]
+    },
+    "SettlementPayment": {
+      "title": "SettlementPayment",
+      "description": "Rebalancing payment between shareholders to settle expense share variances",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "fromUserId": { "type": "string" },
+        "fromUserName": { "type": "string" },
+        "toUserId": { "type": "string" },
+        "toUserName": { "type": "string" },
+        "amount": { "type": "number" },
+        "settlementDate": { "type": "string" },
+        "status": { "type": "string" },
+        "notes": { "type": "string" },
+        "paidAt": { "type": "string" },
+        "recordedBy": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["fromUserId", "toUserId", "amount", "settlementDate", "status"]
+    },
+    "ExpenseCategory": {
+      "title": "ExpenseCategory",
+      "description": "Pre-defined or custom expense taxonomy category",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "status"]
+    },
+    "CompanySettings": {
+      "title": "CompanySettings",
+      "description": "Corporate settings, currency, and shareholder permission configurations",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "companyName": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "currency": { "type": "string" },
+        "currencySymbol": { "type": "string" },
+        "contactInformation": { "type": "string" },
+        "address": { "type": "string" },
+        "shareholdersCanManageRevenue": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["companyName", "currency", "currencySymbol"]
+    },
+    "AppUser": {
+      "title": "AppUser",
+      "description": "User profile with role-based permissions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string" },
+        "status": { "type": "string" },
+        "passwordHash": { "type": "string" },
+        "canAddRevenue": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "email", "role", "status"]
+    },
+    "ShareholderConfig": {
+      "title": "ShareholderConfig",
+      "description": "Shareholder equity allocation and settlement profile",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "ownershipPercentage": { "type": "number" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userId", "name", "ownershipPercentage"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "System event log for financial transparency and compliance tracking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "action": { "type": "string" },
+        "recordAffected": { "type": "string" },
+        "details": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["userId", "action", "details", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/expenses/{expenseId}": {
+      "schema": "Expense",
+      "description": "List of company expense records"
+    },
+    "/revenues/{revenueId}": {
+      "schema": "Revenue",
+      "description": "List of customer revenue payments"
+    },
+    "/settlements/{settlementId}": {
+      "schema": "SettlementPayment",
+      "description": "Shareholder equalization settlement records"
+    },
+    "/expense_categories/{categoryId}": {
+      "schema": "ExpenseCategory",
+      "description": "Expense category classifications"
+    },
+    "/company_settings/{settingId}": {
+      "schema": "CompanySettings",
+      "description": "System and corporate configuration"
+    },
+    "/users/{userId}": {
+      "schema": "AppUser",
+      "description": "User accounts with system roles"
+    },
+    "/shareholders/{shareholderId}": {
+      "schema": "ShareholderConfig",
+      "description": "Shareholder ownership percentage profiles"
+    },
+    "/audit_logs/{logId}": {
+      "schema": "AuditLog",
+      "description": "Historical audit activity records"
+    }
+  }
+}
